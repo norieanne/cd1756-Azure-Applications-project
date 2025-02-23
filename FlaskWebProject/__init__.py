@@ -10,13 +10,12 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
 # TODO: Add any logging levels and handlers with app.logger
-if not app.debug:
-    file_handler = logging.FileHandler('error.log')
-    file_handler.setLevel(logging.WARNING)
-    app.logger.addHandler(file_handler)
-
+app.logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+app.logger.addHandler(stream_handler)
+  
 Session(app)
 db = SQLAlchemy(app)
 login = LoginManager(app)
