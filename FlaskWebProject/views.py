@@ -126,7 +126,7 @@ def _load_cache():
     return cache
 
 def _save_cache(cache):
-    # TODO: Save the cache, if it has changed
+    # TODO: Save the cache, if it has change
     if cache.has_state_changed:
         session['token_cache'] = cache.serialize()
 
