@@ -66,13 +66,13 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            # for unsuccessful login
-            app.logger.info(f'user log in Unsuccessful: {form.username.data}')
+            # log unsuccessful login
+            app.logger.info(f'Unsuccessful login attempt for user: {form.username.data}')
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        # for successful login
-        app.logger.info(f'user login successful: {form.username.data}')
+        # log successful login
+        app.logger.info(f'Successful login for user: {form.username.data}')
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
@@ -95,7 +95,6 @@ def authorized():
             request.args['code'],
             scopes=Config.SCOPE,
             redirect_uri=url_for('authorized', _external=True, _scheme='https'))
-
         if "error" in result:
             return render_template("auth_error.html", result=result)
         session["user"] = result.get("id_token_claims")
